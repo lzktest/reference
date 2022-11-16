@@ -1,0 +1,417 @@
+<!doctype html>
+<html lang="en" data-color-mode="dark">
+<head>
+<meta charset="utf-8">
+<title>elasticsearch 备忘清单
+ &#x26;  elasticsearch cheatsheet &#x26;  Quick Reference</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta description="这是 elasticsearch 的快速参考备忘单。 你可以在这里找到最常见的 elasticsearc api 命令。为开发人员分享快速参考备忘单。">
+<meta keywords="Quick,Reference,cheatsheet,elasticsearch">
+<link rel="icon" href="data:image/svg+xml,%3Csvg%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20height%3D%221em%22%20width%3D%221em%22%3E%20%3Cpath%20d%3D%22m21.66%2010.44-.98%204.18c-.84%203.61-2.5%205.07-5.62%204.77-.5-.04-1.04-.13-1.62-.27l-1.68-.4c-4.17-.99-5.46-3.05-4.48-7.23l.98-4.19c.2-.85.44-1.59.74-2.2%201.17-2.42%203.16-3.07%206.5-2.28l1.67.39c4.19.98%205.47%203.05%204.49%207.23Z%22%20fill%3D%22%23c9d1d9%22%2F%3E%20%3Cpath%20d%3D%22M15.06%2019.39c-.62.42-1.4.77-2.35%201.08l-1.58.52c-3.97%201.28-6.06.21-7.35-3.76L2.5%2013.28c-1.28-3.97-.22-6.07%203.75-7.35l1.58-.52c.41-.13.8-.24%201.17-.31-.3.61-.54%201.35-.74%202.2l-.98%204.19c-.98%204.18.31%206.24%204.48%207.23l1.68.4c.58.14%201.12.23%201.62.27Zm2.43-8.88c-.06%200-.12-.01-.19-.02l-4.85-1.23a.75.75%200%200%201%20.37-1.45l4.85%201.23a.748.748%200%200%201-.18%201.47Z%22%20fill%3D%22%23228e6c%22%20%2F%3E%20%3Cpath%20d%3D%22M14.56%2013.89c-.06%200-.12-.01-.19-.02l-2.91-.74a.75.75%200%200%201%20.37-1.45l2.91.74c.4.1.64.51.54.91-.08.34-.38.56-.72.56Z%22%20fill%3D%22%23228e6c%22%20%2F%3E%20%3C%2Fsvg%3E" type="image/svg+xml">
+<link rel="stylesheet" href="../style/style.css">
+<link rel="stylesheet" href="../style/katex.css">
+</head>
+<body><nav class="header-nav"><div class="max-container"><a href="../index.html" class="logo"><svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" height="1em" width="1em">
+  <path d="m21.66 10.44-.98 4.18c-.84 3.61-2.5 5.07-5.62 4.77-.5-.04-1.04-.13-1.62-.27l-1.68-.4c-4.17-.99-5.46-3.05-4.48-7.23l.98-4.19c.2-.85.44-1.59.74-2.2 1.17-2.42 3.16-3.07 6.5-2.28l1.67.39c4.19.98 5.47 3.05 4.49 7.23Z" fill="#c9d1d9"></path>
+  <path d="M15.06 19.39c-.62.42-1.4.77-2.35 1.08l-1.58.52c-3.97 1.28-6.06.21-7.35-3.76L2.5 13.28c-1.28-3.97-.22-6.07 3.75-7.35l1.58-.52c.41-.13.8-.24 1.17-.31-.3.61-.54 1.35-.74 2.2l-.98 4.19c-.98 4.18.31 6.24 4.48 7.23l1.68.4c.58.14 1.12.23 1.62.27Zm2.43-8.88c-.06 0-.12-.01-.19-.02l-4.85-1.23a.75.75 0 0 1 .37-1.45l4.85 1.23a.748.748 0 0 1-.18 1.47Z" fill="#228e6c"></path>
+  <path d="M14.56 13.89c-.06 0-.12-.01-.19-.02l-2.91-.74a.75.75 0 0 1 .37-1.45l2.91.74c.4.1.64.51.54.91-.08.34-.38.56-.72.56Z" fill="#228e6c"></path>
+</svg>
+<span class="title">Quick Reference</span></a><div class="menu"><a href="https://github.com/jaywcjlove/reference/blob/main/docs/elasticsearch.md" class="" target="__blank"><svg viewBox="0 0 36 36" fill="currentColor" height="1em" width="1em"><path d="m33 6.4-3.7-3.7a1.71 1.71 0 0 0-2.36 0L23.65 6H6a2 2 0 0 0-2 2v22a2 2 0 0 0 2 2h22a2 2 0 0 0 2-2V11.76l3-3a1.67 1.67 0 0 0 0-2.36ZM18.83 20.13l-4.19.93 1-4.15 9.55-9.57 3.23 3.23ZM29.5 9.43 26.27 6.2l1.85-1.85 3.23 3.23Z"></path><path fill="none" d="M0 0h36v36H0z"></path></svg><span>编辑</span></a><button id="darkMode" type="button"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="light" height="1em" width="1em">
+  <path d="M6.995 12c0 2.761 2.246 5.007 5.007 5.007s5.007-2.246 5.007-5.007-2.246-5.007-5.007-5.007S6.995 9.239 6.995 12zM11 19h2v3h-2zm0-17h2v3h-2zm-9 9h3v2H2zm17 0h3v2h-3zM5.637 19.778l-1.414-1.414 2.121-2.121 1.414 1.414zM16.242 6.344l2.122-2.122 1.414 1.414-2.122 2.122zM6.344 7.759 4.223 5.637l1.415-1.414 2.12 2.122zm13.434 10.605-1.414 1.414-2.122-2.122 1.414-1.414z"></path>
+</svg>
+<svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24" class="dark" height="1em" width="1em">
+  <path d="M12 11.807A9.002 9.002 0 0 1 10.049 2a9.942 9.942 0 0 0-5.12 2.735c-3.905 3.905-3.905 10.237 0 14.142 3.906 3.906 10.237 3.905 14.143 0a9.946 9.946 0 0 0 2.735-5.119A9.003 9.003 0 0 1 12 11.807z"></path>
+</svg>
+</button><script>
+  const LOCAL_NANE = '_dark_mode_theme_'
+  const rememberedValue = localStorage.getItem(LOCAL_NANE);
+  if (rememberedValue && ['light', 'dark'].includes(rememberedValue)) {
+    document.documentElement.setAttribute('data-color-mode', rememberedValue);
+  }
+  const button = document.querySelector('#darkMode');
+  button.onclick = () => {
+    const theme = document.documentElement.dataset.colorMode;
+    const mode = theme === 'light' ? 'dark' : 'light';
+    document.documentElement.setAttribute('data-color-mode', mode);
+    localStorage.setItem(LOCAL_NANE, mode);
+  }
+</script><a href="https://github.com/jaywcjlove/reference" class="" target="__blank"><svg viewBox="0 0 16 16" fill="currentColor" height="1em" width="1em"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.012 8.012 0 0 0 16 8c0-4.42-3.58-8-8-8z"></path></svg></a></div></div></nav><div class="wrap h1body-exist max-container"><header class="wrap-header h1wrap"><h1 id="elasticsearch-备忘清单"><svg viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" fill="currentColor" height="1em" width="1em">
+  <path d="M107.946667 838.4l57.173333 23.893333v-385.28l-103.68 250.026667c-17.493333 43.52 3.413333 93.44 46.506667 111.36z m832-157.866667L728.32 169.813333a85.888 85.888 0 0 0-77.226667-52.48c-11.093333 0-22.613333 1.706667-33.706666 6.4L302.933333 253.866667a85.290667 85.290667 0 0 0-46.08 110.933333l211.626667 510.72a85.248 85.248 0 0 0 110.933333 46.08l314.026667-130.133333a85.077333 85.077333 0 0 0 46.506667-110.933334zM336.213333 373.333333c-23.466667 0-42.666667-19.2-42.666666-42.666666s19.2-42.666667 42.666666-42.666667 42.666667 19.2 42.666667 42.666667-19.2 42.666667-42.666667 42.666666z m-85.333333 469.333334c0 46.933333 38.4 85.333333 85.333333 85.333333h61.866667l-147.2-355.84v270.506667z"></path>
+</svg><a aria-hidden="true" tabindex="-1" href="#elasticsearch-备忘清单"><span class="icon icon-link"></span></a>elasticsearch 备忘清单</h1><div class="wrap-body">
+<p>这是 <a href="https://www.elastic.co/guide/en/elasticsearch/reference/7.17/index.html">elasticsearch</a> 的快速参考备忘单。 你可以在这里找到最常见的 elasticsearc api 命令。</p>
+</div></header><div class="menu-tocs"><div class="menu-btn"><svg aria-hidden="true" fill="currentColor" height="1em" width="1em" viewBox="0 0 16 16" version="1.1" data-view-component="true">
+  <path fill-rule="evenodd" d="M2 4a1 1 0 100-2 1 1 0 000 2zm3.75-1.5a.75.75 0 000 1.5h8.5a.75.75 0 000-1.5h-8.5zm0 5a.75.75 0 000 1.5h8.5a.75.75 0 000-1.5h-8.5zm0 5a.75.75 0 000 1.5h8.5a.75.75 0 000-1.5h-8.5zM3 8a1 1 0 11-2 0 1 1 0 012 0zm-1 6a1 1 0 100-2 1 1 0 000 2z"></path>
+</svg></div><div class="menu-modal"><a aria-hidden="true" class="leve2 tocs-link" href="#入门">入门</a><a aria-hidden="true" class="leve3 tocs-link" href="#入门-1">入门</a><a aria-hidden="true" class="leve3 tocs-link" href="#常见elasticsearch配置">常见elasticsearch配置</a><a aria-hidden="true" class="leve3 tocs-link" href="#配置数据及日志路径">配置数据及日志路径</a><a aria-hidden="true" class="leve3 tocs-link" href="#配置集群节点">配置集群节点</a><a aria-hidden="true" class="leve3 tocs-link" href="#将配置文件替换为环境变量">将配置文件替换为环境变量</a><a aria-hidden="true" class="leve3 tocs-link" href="#集群配置">集群配置</a><a aria-hidden="true" class="leve4 tocs-link" href="#集群名称设置">集群名称设置</a><a aria-hidden="true" class="leve4 tocs-link" href="#节点发现">节点发现</a><a aria-hidden="true" class="leve4 tocs-link" href="#符合主节点条件的节点">符合主节点条件的节点</a><a aria-hidden="true" class="leve4 tocs-link" href="#日志目录">日志目录</a><a aria-hidden="true" class="leve3 tocs-link" href="#jvm内存">jvm内存</a><a aria-hidden="true" class="leve4 tocs-link" href="#堆大小设置">堆大小设置</a><a aria-hidden="true" class="leve4 tocs-link" href="#jvm转储路径设置">jvm转储路径设置</a><a aria-hidden="true" class="leve4 tocs-link" href="#gc日志记录设置">gc日志记录设置</a><a aria-hidden="true" class="leve3 tocs-link" href="#创建快照">创建快照</a><a aria-hidden="true" class="leve4 tocs-link" href="#创建快照先决条件">创建快照先决条件</a><a aria-hidden="true" class="leve4 tocs-link" href="#注意">注意</a><a aria-hidden="true" class="leve3 tocs-link" href="#使用slm自动创建快照">使用SLM自动创建快照</a><a aria-hidden="true" class="leve3 tocs-link" href="#slm完全访问角色创建">slm完全访问角色创建</a><a aria-hidden="true" class="leve3 tocs-link" href="#slm只读角色">slm只读角色</a><a aria-hidden="true" class="leve3 tocs-link" href="#slm策略">slm策略</a><a aria-hidden="true" class="leve3 tocs-link" href="#操作">操作</a><a aria-hidden="true" class="leve4 tocs-link" href="#手动执行快照s">手动执行快照s</a><a aria-hidden="true" class="leve4 tocs-link" href="#最低存储管理保留">最低存储管理保留</a><a aria-hidden="true" class="leve4 tocs-link" href="#立即运行保留任务">立即运行保留任务</a><a aria-hidden="true" class="leve4 tocs-link" href="#手动创建快照">手动创建快照</a><a aria-hidden="true" class="leve3 tocs-link" href="#快照还原">快照还原</a><a aria-hidden="true" class="leve4 tocs-link" href="#先决条件">先决条件</a><a aria-hidden="true" class="leve4 tocs-link" href="#注意-1">注意</a><a aria-hidden="true" class="leve3 tocs-link" href="#监控快照">监控快照</a><a aria-hidden="true" class="leve3 tocs-link" href="#索引恢复">索引恢复</a><a aria-hidden="true" class="leve4 tocs-link" href="#索引恢复-1">索引恢复</a><a aria-hidden="true" class="leve4 tocs-link" href="#还原时重命名">还原时重命名</a><a aria-hidden="true" class="leve3 tocs-link" href="#删除并重命名还原索引">删除并重命名还原索引</a><a aria-hidden="true" class="leve4 tocs-link" href="#排除系统索引">排除系统索引</a><a aria-hidden="true" class="leve3 tocs-link" href="#安全设置">安全设置</a><a aria-hidden="true" class="leve3 tocs-link" href="#breaker-断续器">breaker 断续器</a><a aria-hidden="true" class="leve4 tocs-link" href="#父断路器">父断路器</a><a aria-hidden="true" class="leve4 tocs-link" href="#现场数据断路器">现场数据断路器</a><a aria-hidden="true" class="leve4 tocs-link" href="#请求断路器">请求断路器</a><a aria-hidden="true" class="leve4 tocs-link" href="#动态请求断路器">动态请求断路器</a><a aria-hidden="true" class="leve4 tocs-link" href="#脚本编译断路器">脚本编译断路器</a><a aria-hidden="true" class="leve4 tocs-link" href="#正则表达式断路器">正则表达式断路器</a><a aria-hidden="true" class="leve3 tocs-link" href="#集群分片和路由">集群分片和路由</a><a aria-hidden="true" class="leve4 tocs-link" href="#集群分片分配配置">集群分片分配配置</a><a aria-hidden="true" class="leve4 tocs-link" href="#分片重新平衡设置">分片重新平衡设置</a><a aria-hidden="true" class="leve4 tocs-link" href="#分片平衡启发式设置">分片平衡启发式设置</a><a aria-hidden="true" class="leve3 tocs-link" href="#字段数据缓存设置">字段数据缓存设置</a><a aria-hidden="true" class="leve3 tocs-link" href="#重要的系统配置">重要的系统配置</a><a aria-hidden="true" class="leve3 tocs-link" href="#索引管理设置">索引管理设置</a><a aria-hidden="true" class="leve3 tocs-link" href="#索引缓冲区设置">索引缓冲区设置</a></div></div><div class="h1wrap-body"><div class="wrap h2body-exist"><div class="wrap-header h2wrap"><h2 id="入门"><a aria-hidden="true" tabindex="-1" href="#入门"><span class="icon icon-link"></span></a>入门</h2><div class="wrap-body">
+</div></div><div class="h2wrap-body"><div class="wrap h3body-not-exist row-span-2"><div class="wrap-header h3wrap"><h3 id="入门-1"><a aria-hidden="true" tabindex="-1" href="#入门-1"><span class="icon icon-link"></span></a>入门</h3><div class="wrap-body">
+<!--rehype:wrap-class=row-span-2-->
+<p>配置加载顺序：</p>
+<ul>
+<li>临时配置</li>
+<li>持久配置</li>
+<li>elasticsearch。yml配置</li>
+<li>默认配置</li>
+</ul>
+</div></div></div><div class="wrap h3body-not-exist"><div class="wrap-header h3wrap"><h3 id="常见elasticsearch配置"><a aria-hidden="true" tabindex="-1" href="#常见elasticsearch配置"><span class="icon icon-link"></span></a>常见elasticsearch配置</h3><div class="wrap-body">
+<pre class="wrap-text"><code class="language-shell code-highlight"><span class="code-line"><span class="token assign-left variable">ES_PATH_CONF</span><span class="token operator">=</span>/path/to/my/config ./bin/elasticsearch  <span class="token comment">#指定配置文件目录位置</span>
+</span></code></pre>
+<!--rehype:className=wrap-text-->
+</div></div></div><div class="wrap h3body-not-exist"><div class="wrap-header h3wrap"><h3 id="配置数据及日志路径"><a aria-hidden="true" tabindex="-1" href="#配置数据及日志路径"><span class="icon icon-link"></span></a>配置数据及日志路径</h3><div class="wrap-body">
+<pre><code class="code-highlight"><span class="code-line">path:
+</span><span class="code-line">    data: /var/lib/elasticsearch
+</span><span class="code-line">    logs: /var/log/elasticsearch
+</span></code></pre>
+</div></div></div><div class="wrap h3body-not-exist"><div class="wrap-header h3wrap"><h3 id="配置集群节点"><a aria-hidden="true" tabindex="-1" href="#配置集群节点"><span class="icon icon-link"></span></a>配置集群节点</h3><div class="wrap-body">
+<pre><code class="code-highlight"><span class="code-line">discovery.seed_hosts:
+</span><span class="code-line">   - 192.168.1.10:9300
+</span><span class="code-line">   - 192.168.1.11
+</span><span class="code-line">   - seeds.mydomain.com
+</span></code></pre>
+</div></div></div><div class="wrap h3body-not-exist"><div class="wrap-header h3wrap"><h3 id="将配置文件替换为环境变量"><a aria-hidden="true" tabindex="-1" href="#将配置文件替换为环境变量"><span class="icon icon-link"></span></a>将配置文件替换为环境变量</h3><div class="wrap-body">
+<pre><code class="code-highlight"><span class="code-line">node.name:    ${HOSTNAME}
+</span><span class="code-line">network.host: ${ES_NETWORK_HOST}
+</span><span class="code-line">
+</span></code></pre>
+</div></div></div><div class="wrap h3body-exist"><div class="wrap-header h3wrap"><h3 id="集群配置"><a aria-hidden="true" tabindex="-1" href="#集群配置"><span class="icon icon-link"></span></a>集群配置</h3><div class="wrap-body">
+<h4 id="集群名称设置"><a aria-hidden="true" tabindex="-1" href="#集群名称设置"><span class="icon icon-link"></span></a>集群名称设置</h4>
+<pre class="language-yaml"><code class="language-yaml code-highlight"><span class="code-line"><span class="token key atrule">cluster.name</span><span class="token punctuation">:</span> logging<span class="token punctuation">-</span>prod
+</span><span class="code-line"><span class="token key atrule">network.host</span><span class="token punctuation">:</span> 192.168.1.10
+</span><span class="code-line"><span class="token key atrule">node.name</span><span class="token punctuation">:</span> prod<span class="token punctuation">-</span>data<span class="token punctuation">-</span><span class="token number">2</span>
+</span></code></pre>
+<h4 id="节点发现"><a aria-hidden="true" tabindex="-1" href="#节点发现"><span class="icon icon-link"></span></a>节点发现</h4>
+<pre class="language-yaml"><code class="language-yaml code-highlight"><span class="code-line"><span class="token key atrule">discovery.seed_hosts</span><span class="token punctuation">:</span>
+</span><span class="code-line">   <span class="token punctuation">-</span> 192.168.1.10<span class="token punctuation">:</span><span class="token number">9300</span>
+</span><span class="code-line">   <span class="token punctuation">-</span> 192.168.1.11 
+</span><span class="code-line">   <span class="token punctuation">-</span> seeds.mydomain.com 
+</span><span class="code-line">   <span class="token punctuation">-</span> <span class="token punctuation">[</span>0<span class="token punctuation">:</span>0<span class="token punctuation">:</span>0<span class="token punctuation">:</span>0<span class="token punctuation">:</span>0<span class="token punctuation">:</span>ffff<span class="token punctuation">:</span>c0a8<span class="token punctuation">:</span>10c<span class="token punctuation">]</span><span class="token punctuation">:</span><span class="token number">9301</span> 
+</span></code></pre>
+<h4 id="符合主节点条件的节点"><a aria-hidden="true" tabindex="-1" href="#符合主节点条件的节点"><span class="icon icon-link"></span></a>符合主节点条件的节点</h4>
+<pre class="language-yaml"><code class="language-yaml code-highlight"><span class="code-line"><span class="token key atrule">cluster.initial_master_nodes</span><span class="token punctuation">:</span> 
+</span><span class="code-line">   <span class="token punctuation">-</span> master<span class="token punctuation">-</span>node<span class="token punctuation">-</span>a
+</span><span class="code-line">   <span class="token punctuation">-</span> master<span class="token punctuation">-</span>node<span class="token punctuation">-</span>b
+</span><span class="code-line">   <span class="token punctuation">-</span> master<span class="token punctuation">-</span>node<span class="token punctuation">-</span>c
+</span></code></pre>
+<h4 id="日志目录"><a aria-hidden="true" tabindex="-1" href="#日志目录"><span class="icon icon-link"></span></a>日志目录</h4>
+<pre><code class="code-highlight"><span class="code-line">/var/log/elasticsearch/logs
+</span></code></pre>
+</div></div></div><div class="wrap h3body-exist"><div class="wrap-header h3wrap"><h3 id="jvm内存"><a aria-hidden="true" tabindex="-1" href="#jvm内存"><span class="icon icon-link"></span></a>jvm内存</h3><div class="wrap-body">
+<h4 id="堆大小设置"><a aria-hidden="true" tabindex="-1" href="#堆大小设置"><span class="icon icon-link"></span></a>堆大小设置</h4>
+<p>elasticsearch会根据节点角色和总内存自动设置jvm堆大小。建议对大多数生成环境使用默认大小。自动堆大小需要绑定jdk。</p>
+<h4 id="jvm转储路径设置"><a aria-hidden="true" tabindex="-1" href="#jvm转储路径设置"><span class="icon icon-link"></span></a>jvm转储路径设置</h4>
+<p>默认为/var/lib/elasticsearch/data 如果需要修改，请修改jvm.options中的-XX:HeapDumpPath=... 如果指定目录，则生成文件，如果指定文件名，则必须在生成转储时不存在此文件。</p>
+<h4 id="gc日志记录设置"><a aria-hidden="true" tabindex="-1" href="#gc日志记录设置"><span class="icon icon-link"></span></a>gc日志记录设置</h4>
+<p>默认启用gc日志。这在jvm.options中设置并输出到elasticsearch日志。默认配置64MB轮换一次日志，并且最多可以占用2GB的磁盘空间。-Xlog:disable禁用日志。
+默认设置</p>
+<pre class="wrap-text"><code class="code-highlight"><span class="code-line">-Xlog:all=warning:stderr:utctime,level,tags
+</span></code></pre>
+<!--rehype:className=wrap-text-->
+<p>使用多种选项启动gc日志记录到自定义位置</p>
+<pre class="wrap-text"><code class="code-highlight"><span class="code-line">-Xlog:gc*,gc+age=trace,safepoint:file=/opt/my-app/gc.log:utctime,pid,tags:filecount=32,filesize=64m
+</span></code></pre>
+<!--rehype:className=wrap-text-->
+</div></div></div><div class="wrap h3body-exist"><div class="wrap-header h3wrap"><h3 id="创建快照"><a aria-hidden="true" tabindex="-1" href="#创建快照"><span class="icon icon-link"></span></a>创建快照</h3><div class="wrap-body">
+<h4 id="创建快照先决条件"><a aria-hidden="true" tabindex="-1" href="#创建快照先决条件"><span class="icon icon-link"></span></a>创建快照先决条件</h4>
+<ul>
+<li>集群权限: monitormanage_slm cluster:admin/snapshot cluster:admin/repository</li>
+<li>索引权限: 所有索引权限  all monitor</li>
+<li>只能从具有选定主节点的正在运行的集群中拍摄快照。</li>
+<li>必须注册快照存储库，并且可用于集群。</li>
+<li>集群的全局元素必须可读。快照，索引及其元数据必须可读，确保没有任何集群块或索引阻止读取访问块。</li>
+</ul>
+<h4 id="注意"><a aria-hidden="true" tabindex="-1" href="#注意"><span class="icon icon-link"></span></a>注意</h4>
+<ul>
+<li>每个快照在其存储库中必须具有唯一的名称。</li>
+<li>快照会自动进行重复数据删除。</li>
+<li>每个快照在逻辑上都是独立的。</li>
+<li>拍摄快照可以暂时暂停分片分配。</li>
+<li>拍摄快照不阻止索引或其他请求。</li>
+<li>可以同时拍摄多个快照。</li>
+<li>如果在快照中包含数据流，则快照还包括流的支持索引和元数据。</li>
+<li>快照可以包含数据流，但不包括特定的后边索引。</li>
+</ul>
+</div></div></div><div class="wrap h3body-not-exist"><div class="wrap-header h3wrap"><h3 id="使用slm自动创建快照"><a aria-hidden="true" tabindex="-1" href="#使用slm自动创建快照"><span class="icon icon-link"></span></a>使用SLM自动创建快照</h3><div class="wrap-body">
+<p>快照生命周期管理(SLM)是定期备份集群的最简单方法。
+集群权限:</p>
+<ul>
+<li>manage_slm ：允许用户执行所有SLM操作，包括创建和更新策略以及启动和停止SLM。</li>
+<li>read_slm ： 允许用户执行所有只读SLM操作。</li>
+<li>cluster:admin/snapshot/*  允许用户拍摄和删除任何索引的快照，无论是否有权访问该索引。</li>
+</ul>
+</div></div></div><div class="wrap h3body-not-exist"><div class="wrap-header h3wrap"><h3 id="slm完全访问角色创建"><a aria-hidden="true" tabindex="-1" href="#slm完全访问角色创建"><span class="icon icon-link"></span></a>slm完全访问角色创建</h3><div class="wrap-body">
+<pre class="wrap-text"><code class="code-highlight"><span class="code-line">POST _security/role/slm-admin
+</span><span class="code-line">{
+</span><span class="code-line">  "cluster": [ "manage_slm", "cluster:admin/snapshot/*" ],
+</span><span class="code-line">  "indices": [
+</span><span class="code-line">    {
+</span><span class="code-line">      "names": [ ".slm-history-*" ],
+</span><span class="code-line">      "privileges": [ "all" ] 
+</span><span class="code-line">    }
+</span><span class="code-line">  ]
+</span><span class="code-line">}
+</span></code></pre>
+<!--rehype:className=wrap-text-->
+</div></div></div><div class="wrap h3body-not-exist"><div class="wrap-header h3wrap"><h3 id="slm只读角色"><a aria-hidden="true" tabindex="-1" href="#slm只读角色"><span class="icon icon-link"></span></a>slm只读角色</h3><div class="wrap-body">
+<pre class="wrap-text"><code class="code-highlight"><span class="code-line">POST _security/role/slm-read-only
+</span><span class="code-line">{
+</span><span class="code-line">  "cluster": [ "read_slm" ],
+</span><span class="code-line">  "indices": [
+</span><span class="code-line">    {
+</span><span class="code-line">      "names": [ ".slm-history-*" ],
+</span><span class="code-line">      "privileges": [ "read" ]
+</span><span class="code-line">    }
+</span><span class="code-line">  ]
+</span><span class="code-line">}
+</span></code></pre>
+<!--rehype:className=wrap-text-->
+</div></div></div><div class="wrap h3body-not-exist"><div class="wrap-header h3wrap"><h3 id="slm策略"><a aria-hidden="true" tabindex="-1" href="#slm策略"><span class="icon icon-link"></span></a>slm策略</h3><div class="wrap-body">
+<pre class="wrap-text"><code class="language-json code-highlight"><span class="code-line">PUT _slm/policy/nightly-snapshots
+</span><span class="code-line"><span class="token punctuation">{</span>
+</span><span class="code-line">  <span class="token property">"schedule"</span><span class="token operator">:</span> <span class="token string">"0 30 1 * * ?"</span><span class="token punctuation">,</span>       #快照时间
+</span><span class="code-line">  <span class="token property">"name"</span><span class="token operator">:</span> <span class="token string">"&#x3C;nightly-snap-{now/d}>"</span><span class="token punctuation">,</span> # 快照名称。支持日期熟悉。策略还会将uuid附加到每个快照名称。
+</span><span class="code-line">  <span class="token property">"repository"</span><span class="token operator">:</span> <span class="token string">"my_repository"</span><span class="token punctuation">,</span>    # 已注册的快照存储库。
+</span><span class="code-line">  <span class="token property">"config"</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+</span><span class="code-line">    <span class="token property">"indices"</span><span class="token operator">:</span> <span class="token string">"*"</span><span class="token punctuation">,</span>                 # 要包含在策略快照中的数据流和索引。包括系统索引。
+</span><span class="code-line">    <span class="token property">"include_global_state"</span><span class="token operator">:</span> <span class="token boolean">true</span><span class="token punctuation">,</span>    # 策略的快照集群状态。默认包括所有功能状态。
+</span><span class="code-line">    <span class="token property">"feature_states"</span><span class="token operator">:</span> <span class="token punctuation">[</span>
+</span><span class="code-line">      <span class="token string">"kibana"</span><span class="token punctuation">,</span>                     # 快照包含的特定功能状态
+</span><span class="code-line">      <span class="token string">"security"</span>
+</span><span class="code-line">    <span class="token punctuation">]</span>
+</span><span class="code-line">  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+</span><span class="code-line">  <span class="token property">"retention"</span><span class="token operator">:</span> <span class="token punctuation">{</span>                    
+</span><span class="code-line">    <span class="token property">"expire_after"</span><span class="token operator">:</span> <span class="token string">"30d"</span><span class="token punctuation">,</span>          # 快照保留<span class="token number">30</span>天
+</span><span class="code-line">    <span class="token property">"min_count"</span><span class="token operator">:</span> <span class="token number">5</span><span class="token punctuation">,</span>                 # 保留至少<span class="token number">5</span>个 无论期限如何
+</span><span class="code-line">    <span class="token property">"max_count"</span><span class="token operator">:</span> <span class="token number">50</span>                 # 不超过<span class="token number">50</span>个 无论期限如何
+</span><span class="code-line">  <span class="token punctuation">}</span>
+</span><span class="code-line"><span class="token punctuation">}</span>
+</span></code></pre>
+<!--rehype:className=wrap-text-->
+</div></div></div><div class="wrap h3body-exist"><div class="wrap-header h3wrap"><h3 id="操作"><a aria-hidden="true" tabindex="-1" href="#操作"><span class="icon icon-link"></span></a>操作</h3><div class="wrap-body">
+<h4 id="手动执行快照s"><a aria-hidden="true" tabindex="-1" href="#手动执行快照s"><span class="icon icon-link"></span></a>手动执行快照s</h4>
+<pre><code class="code-highlight"><span class="code-line">POST _slm/policy/nightly-snapshots/_execute
+</span></code></pre>
+<h4 id="最低存储管理保留"><a aria-hidden="true" tabindex="-1" href="#最低存储管理保留"><span class="icon icon-link"></span></a>最低存储管理保留</h4>
+<pre><code class="code-highlight"><span class="code-line">PUT _cluster/settings
+</span><span class="code-line">{
+</span><span class="code-line">  "persistent" : {
+</span><span class="code-line">    "slm.retention_schedule" : "0 30 1 * * ?"
+</span><span class="code-line">  }
+</span><span class="code-line">}
+</span></code></pre>
+<h4 id="立即运行保留任务"><a aria-hidden="true" tabindex="-1" href="#立即运行保留任务"><span class="icon icon-link"></span></a>立即运行保留任务</h4>
+<pre><code class="code-highlight"><span class="code-line">POST _slm/_execute_retention
+</span></code></pre>
+<h4 id="手动创建快照"><a aria-hidden="true" tabindex="-1" href="#手动创建快照"><span class="icon icon-link"></span></a>手动创建快照</h4>
+<pre class="wrap-text"><code class="code-highlight"><span class="code-line">PUT _snapshot/my_repository/%3Cmy_snapshot_%7Bnow%2Fd%7D%3E
+</span><span class="code-line">PUT _snapshot/my_repository/my_snapshot?wait_for_completion=true  #若要在快照完成之前阻塞客户端，使用wait_for_completion=true
+</span></code></pre>
+<!--rehype:className=wrap-text-->
+</div></div></div><div class="wrap h3body-exist"><div class="wrap-header h3wrap"><h3 id="快照还原"><a aria-hidden="true" tabindex="-1" href="#快照还原"><span class="icon icon-link"></span></a>快照还原</h3><div class="wrap-body">
+<h4 id="先决条件"><a aria-hidden="true" tabindex="-1" href="#先决条件"><span class="icon icon-link"></span></a>先决条件</h4>
+<ul>
+<li>集群权限： monitormanage_slm cluster:admin/snapshot cluster:admin/repository</li>
+<li>索引权限：all moniter</li>
+<li>只能将快照还原到具有选定主节点的正在运行的集群。快照存储库必须已注册并可供集群使用。</li>
+<li>快照和集群版本必须兼容。</li>
+<li>集群全局元数据必须可写。确保没有任何阻止写入的集群块。此还原操作将忽略索引块。</li>
+<li>在还原数据流之前，请确保集群包含启用了数据流的匹配索引模板。如果不存在此类模板，则可以创建一个模板或还原一个包含的集群状态。如果没有匹配的索引模板，数据流将无法滚动更新或创建后备索引。</li>
+</ul>
+<h4 id="注意-1"><a aria-hidden="true" tabindex="-1" href="#注意-1"><span class="icon icon-link"></span></a>注意</h4>
+<ul>
+<li>如果还原数据流，则还会还原其后备索引。</li>
+<li>仅当现有索引已关闭且快照中的索引具有相同数量的主分片。</li>
+<li>无法还原现有的打开索引。包括数据流的支持索引。</li>
+<li>还原操作会自动打开还原的索引，包括备份指标。</li>
+<li>只能从数据流还原特定的后备索引。</li>
+</ul>
+</div></div></div><div class="wrap h3body-not-exist"><div class="wrap-header h3wrap"><h3 id="监控快照"><a aria-hidden="true" tabindex="-1" href="#监控快照"><span class="icon icon-link"></span></a>监控快照</h3><div class="wrap-body">
+<pre class="wrap-text"><code class="language-shell code-highlight"><span class="code-line">GET _snapshot/my_repository/_current    <span class="token comment">#监视正在运行的快照</span>
+</span><span class="code-line">GET _snapshot/_status                   <span class="token comment">#获取残页正在运行的每个分片的完整细分快照</span>
+</span><span class="code-line">GET _slm/stats                          <span class="token comment">#查看slm执行历史</span>
+</span><span class="code-line">DELETE _snapshot/my_repository/my_snapshot_2099.05.06  <span class="token comment"># 删除快照</span>
+</span><span class="code-line">GET _features                           <span class="token comment">#默认情况下快照包含集群状态和功能状态。排除默认情况下，本请求获取功能类型。</span>
+</span><span class="code-line">GET _snapshot                           <span class="token comment">#获取快照列表</span>
+</span><span class="code-line">GET _snapshot/my_repository/*?verbose<span class="token operator">=</span>false <span class="token comment">#返回每个快照的内容</span>
+</span></code></pre>
+<!--rehype:className=wrap-text-->
+</div></div></div><div class="wrap h3body-exist"><div class="wrap-header h3wrap"><h3 id="索引恢复"><a aria-hidden="true" tabindex="-1" href="#索引恢复"><span class="icon icon-link"></span></a>索引恢复</h3><div class="wrap-body">
+<h4 id="索引恢复-1"><a aria-hidden="true" tabindex="-1" href="#索引恢复-1"><span class="icon icon-link"></span></a>索引恢复</h4>
+<pre class="wrap-text"><code class="language-json code-highlight"><span class="code-line">POST _snapshot/my_repository/my_snapshot_2099.<span class="token number">05.06</span>/_restore
+</span><span class="code-line"><span class="token punctuation">{</span>
+</span><span class="code-line">  <span class="token property">"indices"</span><span class="token operator">:</span> <span class="token string">"my-index,logs-my_app-default"</span>
+</span><span class="code-line"><span class="token punctuation">}</span>
+</span></code></pre>
+<!--rehype:className=wrap-text-->
+<h4 id="还原时重命名"><a aria-hidden="true" tabindex="-1" href="#还原时重命名"><span class="icon icon-link"></span></a>还原时重命名</h4>
+<pre class="wrap-text"><code class="language-json code-highlight"><span class="code-line">POST _snapshot/my_repository/my_snapshot_2099.<span class="token number">05.06</span>/_restore
+</span><span class="code-line"><span class="token punctuation">{</span>
+</span><span class="code-line">  <span class="token property">"indices"</span><span class="token operator">:</span> <span class="token string">"my-index,logs-my_app-default"</span><span class="token punctuation">,</span>
+</span><span class="code-line">  <span class="token property">"rename_pattern"</span><span class="token operator">:</span> <span class="token string">"(.+)"</span><span class="token punctuation">,</span>
+</span><span class="code-line">  <span class="token property">"rename_replacement"</span><span class="token operator">:</span> <span class="token string">"restored-$1"</span>
+</span><span class="code-line"><span class="token punctuation">}</span>
+</span></code></pre>
+<!--rehype:className=wrap-text-->
+</div></div></div><div class="wrap h3body-exist"><div class="wrap-header h3wrap"><h3 id="删除并重命名还原索引"><a aria-hidden="true" tabindex="-1" href="#删除并重命名还原索引"><span class="icon icon-link"></span></a>删除并重命名还原索引</h3><div class="wrap-body">
+<pre class="language-json"><code class="language-json code-highlight"><span class="code-line">POST _reindex
+</span><span class="code-line"><span class="token punctuation">{</span>
+</span><span class="code-line">  <span class="token property">"source"</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+</span><span class="code-line">    <span class="token property">"index"</span><span class="token operator">:</span> <span class="token string">"restored-logs-my_app-default"</span>
+</span><span class="code-line">  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+</span><span class="code-line">  <span class="token property">"dest"</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+</span><span class="code-line">    <span class="token property">"index"</span><span class="token operator">:</span> <span class="token string">"logs-my_app-default"</span><span class="token punctuation">,</span>
+</span><span class="code-line">    <span class="token property">"op_type"</span><span class="token operator">:</span> <span class="token string">"create"</span>
+</span><span class="code-line">  <span class="token punctuation">}</span>
+</span><span class="code-line"><span class="token punctuation">}</span>
+</span></code></pre>
+<h4 id="排除系统索引"><a aria-hidden="true" tabindex="-1" href="#排除系统索引"><span class="icon icon-link"></span></a>排除系统索引</h4>
+<pre class="wrap-text"><code class="language-json code-highlight"><span class="code-line">POST _snapshot/my_repository/my_snapshot_2099.<span class="token number">05.06</span>/_restore
+</span><span class="code-line"><span class="token punctuation">{</span>
+</span><span class="code-line">  <span class="token property">"indices"</span><span class="token operator">:</span> <span class="token string">"*,-.*"</span>
+</span><span class="code-line"><span class="token punctuation">}</span>
+</span></code></pre>
+<!--rehype:className=wrap-text-->
+</div></div></div><div class="wrap h3body-not-exist"><div class="wrap-header h3wrap"><h3 id="安全设置"><a aria-hidden="true" tabindex="-1" href="#安全设置"><span class="icon icon-link"></span></a>安全设置</h3><div class="wrap-body">
+<p>密钥一些设置设计为从密钥库中读取。密钥库没有用于阻止不受支持的设置的验证。添加不支持的密钥库会导致elasticsearch无法启动。具体请参考安全"限定符设置"。对密钥库的修改只有重启才能生效。所有安全设置都是特定于节点，每个节点必须有相同的值。
+审核：</p>
+<pre class="wrap-text"><code class="language-yaml code-highlight"><span class="code-line">xpack.security.audit.enabled <span class="token comment">#设置在节点上启用审核。默认为true，审核事件存放在每个节点的专用文件Don。如果要在集群中启用，则必须在所有节点上配置。</span>
+</span><span class="code-line">xpack.security.audit.logfile.events.include <span class="token comment">#在审核输出中打印事件类型。默认列表值包含：_all access_denied, access_granted, anonymous_access_denied, authentication_failed, connection_denied, tampered_request, run_as_denied, run_as_granted, security_config_change</span>
+</span><span class="code-line">xpack.security.audit.logfile.events.exclude  <span class="token comment">#从列表中排除指定类型事件。默认为空。events.include _all</span>
+</span><span class="code-line">xpack.security.audit.logfile.events.emit_request_body  <span class="token comment">#指定是否将来自rest请求的完整请求正文作为某些类型的审核事件的属性。默认为false</span>
+</span></code></pre>
+<!--rehype:className=wrap-text-->
+</div></div></div><div class="wrap h3body-exist"><div class="wrap-header h3wrap"><h3 id="breaker-断续器"><a aria-hidden="true" tabindex="-1" href="#breaker-断续器"><span class="icon icon-link"></span></a>breaker 断续器</h3><div class="wrap-body">
+<p>用于防止操作导致内存不足错误。</p>
+<h4 id="父断路器"><a aria-hidden="true" tabindex="-1" href="#父断路器"><span class="icon icon-link"></span></a>父断路器</h4>
+<pre class="wrap-text"><code class="language-shell code-highlight"><span class="code-line">indices.breaker.total.use_real_memory <span class="token comment">#确定父断路器是否应采用实数内存使用量计入(true)或仅考虑由子断路器保留(false)，默认为true。</span>
+</span><span class="code-line">indices.breaker.total.limit <span class="token comment">#整个父断路器的启动限制。默认为jvm堆 ifis的70% 。ifis默认为jvm堆的95%。</span>
+</span></code></pre>
+<!--rehype:className=wrap-text-->
+<h4 id="现场数据断路器"><a aria-hidden="true" tabindex="-1" href="#现场数据断路器"><span class="icon icon-link"></span></a>现场数据断路器</h4>
+<p>现场数据断路器预估加载字段进入字段数据缓存。如果加载字段导致缓存超过预定义内存限制，断路器将停止操作并返回错误。</p>
+<pre class="wrap-text"><code class="language-shell code-highlight"><span class="code-line">indices.breaker.fielddata.limit <span class="token comment">#字段数据断路器限制。默认jvm堆的40%。</span>
+</span><span class="code-line">indices.breaker.fielddata.overhead <span class="token comment">#将所有字段数据估计值乘以确定的值得到最终预估。默认：1.3。</span>
+</span></code></pre>
+<!--rehype:className=wrap-text-->
+<h4 id="请求断路器"><a aria-hidden="true" tabindex="-1" href="#请求断路器"><span class="icon icon-link"></span></a>请求断路器</h4>
+<p>允许elasticsearch阻止每个请求的数据结构超过一定数量的内存。</p>
+<pre class="wrap-text"><code class="language-shell code-highlight"><span class="code-line">indices.breaker.request.limit   <span class="token comment"># 请求断路器限制，默认jvm堆的60%。</span>
+</span><span class="code-line">indices.breaker.request.overhead <span class="token comment"># 一个常量，所有请求估值都乘以确定的常量得到最终估值。默认为1</span>
+</span></code></pre>
+<!--rehype:className=wrap-text-->
+<h4 id="动态请求断路器"><a aria-hidden="true" tabindex="-1" href="#动态请求断路器"><span class="icon icon-link"></span></a>动态请求断路器</h4>
+<p>允许elasticsearch限制所有传输、http级别的当前获得传入请求超过一定数量的节点内存的使用。内存使用情况基于请求本身的内容长度。内存不仅需要用于表示原始请求，而且需要内存也作为默认开销反映的结构化对象。</p>
+<pre class="wrap-text"><code class="language-shell code-highlight"><span class="code-line">network.breaker.inflight_requests.limit   <span class="token comment">#动态请求中断路器的限制，默认为jvm堆的100%。在意味着按父断路器配置的限制绑定。</span>
+</span><span class="code-line">network.breaker.inflight_requests.overhead  <span class="token comment">#一个常数，所有飞行请求估计值都乘以常数得到预估值。默认为2.</span>
+</span></code></pre>
+<!--rehype:className=wrap-text-->
+<h4 id="脚本编译断路器"><a aria-hidden="true" tabindex="-1" href="#脚本编译断路器"><span class="icon icon-link"></span></a>脚本编译断路器</h4>
+<p>与以前的基于内存的断路器略由不同，脚本编译断路器在一段时间内限制内联脚本编译的数量。</p>
+<pre class="wrap-text"><code class="language-shell code-highlight"><span class="code-line">script.max_compilations_rate <span class="token comment">#限定特定时间间隔内允许编译动态脚本的数量。默认为150/5m。意味着每5分钟150个。</span>
+</span></code></pre>
+<!--rehype:className=wrap-text-->
+<h4 id="正则表达式断路器"><a aria-hidden="true" tabindex="-1" href="#正则表达式断路器"><span class="icon icon-link"></span></a>正则表达式断路器</h4>
+<p>写得不好的正则表达式会降低集群稳定性和性能。正则表达式断路器限制正则表达式的使用和复杂性。</p>
+<pre class="wrap-text"><code class="language-shell code-highlight"><span class="code-line">script.painless.regex.enabled <span class="token comment">#在无痛脚本中启用表达式。默认limited。启用正则，但设置复杂度。true：启用没有复杂度的正则表达式，即禁用正则表达式断路器。false：禁用正则表达式。任何正则表达式的脚本都会返回错误</span>
+</span><span class="code-line">script.painless.regex.limit-factor <span class="token comment">#限制常规字符数，限制的公式为设置设置的值乘以脚本输入的字符长度。依赖于script.painless.regex.enabled</span>
+</span></code></pre>
+<!--rehype:className=wrap-text-->
+</div></div></div><div class="wrap h3body-exist"><div class="wrap-header h3wrap"><h3 id="集群分片和路由"><a aria-hidden="true" tabindex="-1" href="#集群分片和路由"><span class="icon icon-link"></span></a>集群分片和路由</h3><div class="wrap-body">
+<p>主节点的作用之一是决定分片给哪些节点。以及何时在节点间移动分片以重新平衡簇。</p>
+<ul>
+<li>集群级别分片分配设置控制分配和重新平衡操作。</li>
+<li>基于磁盘的分片分配设置解释了Elasticsearch如何提供考虑磁盘空间和相关设置。</li>
+<li>分片分配感知和强感知控制分片的方式可以分布在不同的机架或可用性区域。</li>
+<li>集群级别分片分配过滤允许某些节点或组从分配中排除节点，以便可以停用这些节点。</li>
+</ul>
+<h4 id="集群分片分配配置"><a aria-hidden="true" tabindex="-1" href="#集群分片分配配置"><span class="icon icon-link"></span></a>集群分片分配配置</h4>
+<pre class="wrap-text"><code class="language-yaml code-highlight"><span class="code-line">cluster.routing.allocation.enable  <span class="token comment">#启用或禁用特定类型分片的分配。all允许为所有类型分片分配分片。primaries，仅为主分片分配分片。new_primaries仅为新索引的主分片分配分片。none不允许对任何索引进行任何类型的分片分配。</span>
+</span><span class="code-line">cluster.routing.allocation.node_concurrent_incoming_recoveries <span class="token comment">#允许在节点上发生多少个并发传入分片恢复。默认为2</span>
+</span><span class="code-line">cluster.routing.allocation.node_concurrent_outgoing_recoveries <span class="token comment">#一个节点上允许发生多少个并发传出分配恢复。默认为2</span>
+</span><span class="code-line">cluster.routing.allocation.node_concurrent_recoveries <span class="token comment"># 设置上面两个配置的快捷方式</span>
+</span><span class="code-line">cluster.routing.allocation.node_initial_primaries_recoveries <span class="token comment"># 当副本的恢复通过网络进行时，恢复节点重新启动后未分配的主节点使用本地磁盘中的数据。使用本地数据会很块，可以并行。默认为4.</span>
+</span><span class="code-line">cluster.routing.allocation.same_shard.host  <span class="token comment">#允许执行检查以防止单个主机上的多个实例分配相同分片，基于主机名和主机地址。默认情况下不检查。仅在同一台计算机启动多个节点时，设置才适用。</span>
+</span></code></pre>
+<!--rehype:className=wrap-text-->
+<h4 id="分片重新平衡设置"><a aria-hidden="true" tabindex="-1" href="#分片重新平衡设置"><span class="icon icon-link"></span></a>分片重新平衡设置</h4>
+<p>当集群在每个节点上有相同数量分片时，集群是平衡的。分配过滤、强制意识可能阻止完全平衡。在这种情况下，再平和努力实现已配置规则种最可能最平衡的集群。</p>
+<pre class="wrap-text"><code class="language-yaml code-highlight"><span class="code-line">cluster.routing.rebalance.enable <span class="token comment">#all(默认)允许对所有类型的分配进行分片平衡。primaries仅允许主分片的分片平衡。replicas仅允许副本分片的分片平衡。none不允许对任何指数进行任何形式的分片平衡。</span>
+</span><span class="code-line">cluster.routing.allocation.allow_rebalance <span class="token comment">#指定何时允许分片重新平衡。alwyas始终允许重新平衡。indices_primaries_active 仅当分配了集群种的所有主节点时。indices_all_active(默认值)仅当分配了集群种的所有分片(主分片和副分片)时。</span>
+</span><span class="code-line">cluster.routing.allocation.cluster_concurrent_rebalance <span class="token comment">#允许集群范围内允许控制并发重新平衡的数量。默认为2，仅控制到集群中不平衡的到期的并发分片重定位数。此设置不限制因分配迁移等的分片。</span>
+</span></code></pre>
+<!--rehype:className=wrap-text-->
+<h4 id="分片平衡启发式设置"><a aria-hidden="true" tabindex="-1" href="#分片平衡启发式设置"><span class="icon icon-link"></span></a>分片平衡启发式设置</h4>
+<p>重新平衡的工作原理是根据每个节点的分配计算分片的权重，然后在节点之间移动分片以减轻较重的节点权重，增加较轻节点的权重。</p>
+<pre class="wrap-text"><code class="language-yaml code-highlight"><span class="code-line">cluster.routing.allocation.balance.shard <span class="token comment">#定义节点上分配的分片总数的权重因子(浮动)。默认为0.45f</span>
+</span><span class="code-line">cluster.routing.allocation.balance.index <span class="token comment">#定义分配的特定节点上的每个索引的分片数的权重因子。默认为0.55f</span>
+</span><span class="code-line">cluster.routing.allocation.balance.threshold <span class="token comment">#应执行的操作的最小优化值(非负浮点数)。默认为1.0f。</span>
+</span></code></pre>
+<!--rehype:className=wrap-text-->
+</div></div></div><div class="wrap h3body-not-exist"><div class="wrap-header h3wrap"><h3 id="字段数据缓存设置"><a aria-hidden="true" tabindex="-1" href="#字段数据缓存设置"><span class="icon icon-link"></span></a>字段数据缓存设置</h3><div class="wrap-body">
+<p>字段数据缓存包含字段数据和全局序数，都用于支持某些字段类型的聚合。缓存构建成本很高，默认保持缓存到内存中。且缓存大小不受限制。如果设置了缓存大小，则缓存将开始清除最近最少更新的缓存。
+如果达到断路器限制，则会阻止缓存大小的进一步增加。这种情况下，需要手动清除缓存。</p>
+<pre class="wrap-text"><code class="code-highlight"><span class="code-line">indices.fielddata.cache.size # 字段数据缓存的最大大小、egof节点堆空间的绝对值，默认不限制。如果设置，则应小于38%
+</span></code></pre>
+<!--rehype:className=wrap-text-->
+</div></div></div><div class="wrap h3body-not-exist"><div class="wrap-header h3wrap"><h3 id="重要的系统配置"><a aria-hidden="true" tabindex="-1" href="#重要的系统配置"><span class="icon icon-link"></span></a>重要的系统配置</h3><div class="wrap-body">
+<p>生产必须考虑的设置</p>
+<ul>
+<li>配置系统设置</li>
+<li>禁用交换</li>
+<li>增加文件描述符</li>
+<li>确保有足够的虚拟内存</li>
+<li>确保足够的线程</li>
+<li>JVM DNS 高速缓存设置</li>
+<li>临时目录未使用noexec 挂载</li>
+<li>TCP 重新传输超时</li>
+</ul>
+<p>参数告警以网盘设置network.host为区分，未配置则为开发模式，配置则视为生产模式。</p>
+</div></div></div><div class="wrap h3body-not-exist"><div class="wrap-header h3wrap"><h3 id="索引管理设置"><a aria-hidden="true" tabindex="-1" href="#索引管理设置"><span class="icon icon-link"></span></a>索引管理设置</h3><div class="wrap-body">
+<pre class="wrap-text"><code class="language-json code-highlight"><span class="code-line">action.auto_create_index #如果索引不存在，则自动创建索引，并应用任何已配置的索引模板。默认为<span class="token boolean">true</span>
+</span><span class="code-line">action.destructive_requires_name #设置为<span class="token boolean">true</span>时必须指定索引名称才能删除索引。不可能删除所有使用通配符或使用通配符的索引。
+</span><span class="code-line">cluster.indices.close.enable   # 允许关闭elasticsearch 中的打开所有。如果为<span class="token boolean">true</span><span class="token punctuation">,</span>则无法关闭打开的索引。默认为<span class="token boolean">true</span>。
+</span><span class="code-line">reindex.remote.whitelist       # 指定可从远程重新编制索引的主机。需要字符串的yaml数组。由逗号分隔的条目表组成。默认为host<span class="token operator">:</span>port<span class="token punctuation">[</span><span class="token string">"\*.io:*"</span><span class="token punctuation">,</span><span class="token string">"\*.com:*"</span><span class="token punctuation">]</span>
+</span><span class="code-line">stack.templates.enabled        # 如果启用内置索引和组件模板。
+</span></code></pre>
+<!--rehype:className=wrap-text-->
+</div></div></div><div class="wrap h3body-not-exist"><div class="wrap-header h3wrap"><h3 id="索引缓冲区设置"><a aria-hidden="true" tabindex="-1" href="#索引缓冲区设置"><span class="icon icon-link"></span></a>索引缓冲区设置</h3><div class="wrap-body">
+<p>用于存储编制索引的文档。当它填满时，缓冲区的文档将写入磁盘上的段。分裂的在节点上的所有分片之间。</p>
+<pre class="wrap-text"><code class="language-yaml code-highlight"><span class="code-line">indices.memory.index_buffer_size     <span class="token comment">#接受百分比或字节大小值。意味着分配给节点的总堆将用作索引缓冲区在分片之间共享的大小。默认10%</span>
+</span><span class="code-line">indices.memory.min_index_buffer_size <span class="token comment">#百分比，默认48MB，可用于指定绝对最小值。</span>
+</span><span class="code-line">indices.memory.max_index_buffer_size <span class="token comment">#百分比，无限制，可指定绝对最大值。</span>
+</span></code></pre>
+<!--rehype:className=wrap-text-->
+</div></div></div></div></div></div></div><footer class="footer-wrap"><footer class="max-container">© 2022 Kenny Wang, All rights reserved.</footer></footer><script>
+if(('onhashchange' in window) && ((typeof document.documentMode==='undefined') || document.documentMode==8)) {
+  window.onhashchange = function () {
+    anchorPoint()
+    updateAnchor()
+  };
+}
+function anchorPoint() {
+  const hash = window.location.hash?.replace(/^#/, '') || '';
+  const elm = document.getElementById(decodeURIComponent(hash));
+  Array.from(document.querySelectorAll('.h2wrap-body .wrap')).forEach((elm) => elm.classList.remove('active'))
+  if (elm?.tagName === 'H3') {
+    elm?.parentElement?.parentElement?.classList.add('active');
+  }
+}
+anchorPoint();
+
+function updateAnchor(element) {
+  const anchorContainer = document.querySelectorAll('.menu-tocs .menu-modal a.tocs-link');
+  anchorContainer.forEach((tocanchor) => {
+    tocanchor.classList.remove('is-active-link');
+  });
+  const anchor = element || document.querySelector(`a.tocs-link[href='${decodeURIComponent(window.location.hash)}']`);
+  if (anchor) {
+    anchor.classList.add('is-active-link');
+  }
+}
+// toc 定位
+updateAnchor()
+const anchor = document.querySelectorAll('.menu-tocs .menu-modal a.tocs-link');
+anchor.forEach((item) => {
+  item.addEventListener('click', (e) => {
+    updateAnchor()
+  })
+})
+</script></body>
+</html>
